@@ -5,7 +5,7 @@ var logger = require("morgan");
 var mongoose = require("mongoose");
 
 // Require Click schema
-var Click = require("./models/click");
+var Event = require("./models/event");
 
 // Create a new express app
 var app = express();
@@ -22,7 +22,16 @@ app.use(bodyParser.json({ type: "application/vnd.api+json" }));
 app.use(express.static("build"));
 
 // -------------------------------------------------
+mongoose.connect("mongodb://localhost/Calander-Test");
+var db = mongoose.connection;
 
+db.on("error", function(err) {
+  console.log("Mongoose Error: ", err);
+});
+
+db.once("open", function() {
+  console.log("Mongoose connection successful.");
+});
 
 
 // -------------------------------------------------
@@ -32,13 +41,16 @@ app.get("/", function(req, res) {
   res.sendFile(__dirname + "/build/static/index.html");
 });
 
-// This is the route we will send GET requests to retrieve our most recent click data.
-// We will call this route the moment our page gets rendered
-
-
-// This is the route we will send POST requests to save each click.
-// We will call this route the moment the "click" or "reset" button is pressed.
-
+app.get("/api", function(req, res) {
+	Event.find({}).exec(function(err, doc) {
+		if (err) {
+			console.log(err)
+		}
+		else {
+			res.send(doc)
+		}
+	})
+})
 
 // -------------------------------------------------
 
