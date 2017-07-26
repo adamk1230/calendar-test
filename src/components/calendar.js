@@ -65,7 +65,7 @@ class Calendar extends React.Component {
 
 				console.log(eventsArray)
 				this.setState({
-					events: eventsArray
+					events: newStateArray
 				})
 
 
