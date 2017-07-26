@@ -24,12 +24,45 @@ class Calendar extends React.Component {
 
 	componentDidMount() {
 		console.log("Made it to CDM")
-		console.log(moment('20170725T1530').format('llll'))
 		helpers.getEvents()
 			.then(response => {
+				// debugger
 				console.log("made it to response")
 				// console.log(response.data)
-				let eventsArray = response.data
+				
+				let eventsArray = response.data;
+
+				let newStateArray =[];
+
+				eventsArray.forEach(event => {
+					console.log("the Event")
+					console.log(event)
+					var endDate = new Date(event.end)
+					var startDate = new Date(event.start)
+					var newEventObject = {
+						end: endDate,
+						start: startDate,
+						title: event.title
+
+					}
+								// debugger
+					// console.log(newEventObject.end instanceof Date)
+
+					console.log("New Object")
+					console.log(newEventObject)
+
+					newStateArray.push(newEventObject)
+
+				// debugger
+				console.log(newEventObject.end instanceof Date)
+				})
+
+				console.log("newStateArray")
+				console.log(newStateArray)
+
+
+
+
 				console.log(eventsArray)
 				this.setState({
 					events: eventsArray
@@ -53,6 +86,7 @@ class Calendar extends React.Component {
 		console.log("events: ")
 		console.log(events)
 		return(
+			
 			<BigCalendar
 				{...this.props}
 				events={this.state.events}
@@ -61,6 +95,7 @@ class Calendar extends React.Component {
       	// endAccessor='endDate'
 				// defaultDate={new Date(2017, 3, 1)}
 			/>
+			
 		)
 	}
 
