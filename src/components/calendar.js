@@ -15,23 +15,47 @@ class Calendar extends React.Component {
 		super()
 
 		this.state = {
-
+			events: []
 		}
+
+	// this.componentDidMount = this.componentDidMount.bind(this)
+
 	} // ends constructor
 
 	componentDidMount() {
+		console.log("Made it to CDM")
+		console.log(moment('20170725T1530').format('llll'))
 		helpers.getEvents()
-			.then(function(response) {
-				console.log(response)
+			.then(response => {
+				console.log("made it to response")
+				// console.log(response.data)
+				let eventsArray = response.data
+				console.log(eventsArray)
+				this.setState({
+					events: eventsArray
+				})
+
+
+				// eventsArray.forEach(event => {
+				// 	this.setState({
+				// 		events: event
+				// 	})
+
+				// })
 			})
 
 	}// ends compnetDidMount
 
+
 	render() {
+		console.log("this.state.events: ")
+		console.log(this.state.events)
+		console.log("events: ")
+		console.log(events)
 		return(
 			<BigCalendar
 				{...this.props}
-				events={events}
+				events={this.state.events}
 				views={allViews}
 				// startAccessor='startDate'
       	// endAccessor='endDate'

@@ -5,6 +5,7 @@ import axios from 'axios';
 const helper = {
   // Returns a promise object we can .then() off inside our Parent component
   getEvents: function() {
+  	console.log("Made it to getEvents")
     return axios.get("/api");
   }
   // Also returns a promise object we can .then() off inside our Parent component

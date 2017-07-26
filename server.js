@@ -52,6 +52,23 @@ app.get("/api", function(req, res) {
 	})
 })
 
+
+app.post("/api", function(req, res) {
+	console.log("Made it to the post route!")
+	console.log(req.body)
+	var newEvent = new Event(req.body);
+
+	newEvent.save(function(err, doc) {
+		if (err) {
+			console.log(err)
+		}
+		else {
+			res.send(doc)
+		}
+	})
+})
+
+
 // -------------------------------------------------
 
 // Starting our express server
