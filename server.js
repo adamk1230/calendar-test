@@ -5,7 +5,7 @@ var logger = require("morgan");
 var mongoose = require("mongoose");
 
 // Require Click schema
-var Event = require("./models/event");
+var Group = require("./models/group");
 
 // Create a new express app
 var app = express();
@@ -41,8 +41,41 @@ app.get("/", function(req, res) {
   res.sendFile(__dirname + "/build/static/index.html");
 });
 
-app.get("/api", function(req, res) {
-	Event.find({}).exec(function(err, doc) {
+app.get("/api/:id", function(req, res) {
+	Group.findOne({_id: req.params.id}).exec(function(err, doc) {
+		if (err) {
+			console.log(err)
+		}
+		else {
+			console.log(doc)
+			res.send(doc)
+		}
+	})
+})
+
+
+// app.post("/api", function(req, res) {
+// 	console.log("Made it to the post route!")
+// 	console.log(req.body)
+// 	var newEvent = new Event(req.body);
+
+// 	newEvent.save(function(err, doc) {
+// 		if (err) {
+// 			console.log(err)
+// 		}
+// 		else {
+// 			res.send(doc)
+// 		}
+// 	})
+// })
+
+app.post("/event/:id", function(req, res) {
+	console.log("Made it to the event post route!")
+	console.log(req.body)
+	Group.findOneAndUpdate({_id: req.params.id},
+	{
+		$push: {events: req.body}
+	}, function(err, doc) {
 		if (err) {
 			console.log(err)
 		}
@@ -50,15 +83,16 @@ app.get("/api", function(req, res) {
 			res.send(doc)
 		}
 	})
+
+
 })
 
-
-app.post("/api", function(req, res) {
-	console.log("Made it to the post route!")
+app.post("/group", function(req, res) {
+	console.log("Made it to the group post route!")
 	console.log(req.body)
-	var newEvent = new Event(req.body);
+	var newGroup = new Group(req.body);
 
-	newEvent.save(function(err, doc) {
+	newGroup.save(function(err, doc) {
 		if (err) {
 			console.log(err)
 		}

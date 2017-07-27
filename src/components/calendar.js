@@ -28,9 +28,9 @@ class Calendar extends React.Component {
 			.then(response => {
 				// debugger
 				console.log("made it to response")
-				// console.log(response.data)
+				console.log(response.data)
 				
-				let eventsArray = response.data;
+				let eventsArray = response.data.events;
 
 				let newStateArray =[];
 
@@ -89,6 +89,7 @@ class Calendar extends React.Component {
 			
 			<BigCalendar
 				{...this.props}
+				popup
 				events={this.state.events}
 				views={allViews}
 				// startAccessor='startDate'
